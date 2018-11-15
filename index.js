@@ -1,7 +1,11 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+const app = require('./app');
+const database = require('./database');
+const config = require('./config');
 
-app.get('/', (req, res) => res.send('Hello World'));
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+database().then(info => {
+    console.log('Connected to ${info.host}:${info.port}/${info.name}');
+    app.listen(config.PORT, () => console.log(`Example app listening on port ${config.PORT}!`));
+}).catch(() => {
+    console.error('Unable to connect to database');
+    process.exit(1);
+});
