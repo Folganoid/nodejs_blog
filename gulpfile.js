@@ -28,9 +28,14 @@ gulp.task('browser-sync', () => {
     });
 });
 
+gulp.task('browser-reload', (done) => {
+    browserSync.reload();
+    done();
+});
+
 gulp.task('watchers', () => {
+    gulp.watch('dist/*.html', gulp.parallel('browser-reload'));
     gulp.watch('dev/scss/**/*.scss', gulp.series('scss'));
-    gulp.watch('dist/*.html', browserSync.reload);
 });
 
 gulp.task('default', gulp.parallel('browser-sync', 'scss', 'watchers'), () => {
