@@ -15,14 +15,14 @@ gulp.task('scss', () => {
             })
         )
         .pipe(cssnano())
-        .pipe(gulp.dest('dist/css'))
+        .pipe(gulp.dest('public/stylesheets'))
         .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('browser-sync', () => {
     browserSync({
         server: {
-            baseDir: 'dist'
+            baseDir: 'views'
         },
         notify: false
     });
