@@ -2,7 +2,8 @@ const gulp = require('gulp');
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cssnano = require('gulp-cssnano');
-const browserSync = require('browser-sync');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglifyjs');
 
 
 gulp.task('scss', () => {
@@ -16,28 +17,26 @@ gulp.task('scss', () => {
         )
         .pipe(cssnano())
         .pipe(gulp.dest('public/stylesheets'))
-        .pipe(browserSync.reload({stream: true}));
-});
 
-gulp.task('browser-sync', () => {
-    browserSync({
-        server: {
-            baseDir: 'views'
-        },
-        notify: false
-    });
-});
-
-gulp.task('browser-reload', (done) => {
-    browserSync.reload();
-    done();
 });
 
 gulp.task('watchers', () => {
-    gulp.watch('dist/*.html', gulp.parallel('browser-reload'));
     gulp.watch('dev/scss/**/*.scss', gulp.series('scss'));
+    gulp.watch('dev/js/**/*.js', gulp.series('scripts'));
+
 });
 
-gulp.task('default', gulp.parallel('browser-sync', 'scss', 'watchers'), () => {
+gulp.task('scripts', () =>
+    gulp
+        .src([
+            'dev/js/auth.js'
+            //
+        ])
+        .pipe(concat('scripts.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('public/javascripts'))
+);
+
+gulp.task('default', gulp.parallel('scss', 'scripts', 'watchers'), () => {
 
 });
