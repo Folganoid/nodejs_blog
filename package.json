@@ -4,8 +4,8 @@
   "description": "nodejs blog",
   "main": "index.js",
   "scripts": {
-    "start": "PORT=3000 node index.js",
-    "dev": "gulp & nodemon index.js",
+    "start": "node app.js",
+    "dev": "gulp & nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fg",
@@ -13,6 +13,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "browser-sync": "^2.26.3",
+    "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
     "eslint": "^5.9.0",
     "eslint-plugin-node": "^8.0.0",
