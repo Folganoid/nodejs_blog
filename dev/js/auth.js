@@ -52,6 +52,34 @@ $(function () {
             }
         });
     });
+
+    $('.login-button').on('click', function (e) {
+        e.preventDefault();
+
+        var data = {
+            login: $('#login-login').val(),
+            password: $('#login-password').val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: '/api/auth/login'
+        }).done(function(data) {
+            if (!data.ok) {
+                $('.login h2').after('<p class="error">' + data.error + '</p>');
+                if (data.fields) {
+                    data.fields.forEach(function(item) {
+                        $('input[name=' + item + ']').addClass('error');
+                    });
+                }
+            } else {
+                $('.login h2').after('<p class="success">Success!</p>');
+            }
+        });
+    });
+
 });
 
 /* eslint-enable no-undef */

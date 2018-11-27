@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 
 const models = require('../models');
 
-//POST is authorized
+//POST is registration
 router.post('/register', (req, res) => {
     const login = req.body.login;
     const password = req.body.password;
@@ -80,5 +80,56 @@ router.post('/register', (req, res) => {
     }
 
 });
+
+//POST is login
+router.post('/login', (req, res) => {
+    const login = req.body.login;
+    const password = req.body.password;
+
+    if (!login || !password) {
+        const fields = [];
+        if (!login) fields.push('login');
+        if (!password) fields.push('password');
+
+        res.json({
+            ok: false,
+            error: 'All fields must be filled',
+            fields: fields
+        });
+    } else {
+        models.User.findOne({
+            login
+        }).then(user => {
+            if(!user) {
+                res.json({
+                    ok: false,
+                    error: 'Login or password is incorrect',
+                    fields: ['login', 'password']
+                })
+            } else {
+                bcrypt.compare(password, user.password, function(err, result) {
+                    if(!result) {
+                        res.json({
+                           ok: false,
+                            error: 'Login or password is incorrect',
+                            fields: ['login', 'password']
+                        });
+                    } else {
+                        ///
+                    }
+                });
+            }
+
+        }).catch(err => {
+            console.log(err);
+            res.json({
+                ok: false,
+                error: 'Error. Try later'
+            })
+        })
+    }
+
+});
+
 
 module.exports = router;
