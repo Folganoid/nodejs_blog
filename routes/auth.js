@@ -11,16 +11,33 @@ router.post('/register', (req, res) => {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (!login || !password || !passwordConfirm) {
+        const fields = [];
+        if (!login) fields.push('login');
+        if (!password) fields.push('password');
+        if (!passwordConfirm) fields.push('passwordConfirm');
+
         res.json({
             ok: false,
             error: 'All fields must be filled',
-            fields: ['login', 'password', 'passwordConfirm']
+            fields: fields
+        });
+    } else if (!/^[a-zA-Z0-9]+$/.test(login))  {
+        res.json({
+            ok: false,
+            error: 'Only letters and digits',
+            fields: ['login']
         });
     } else if (login.length < 3 || login.length > 16) {
         res.json({
             ok: false,
-            error: 'ogin length must be 3 - 16 symbols',
+            error: 'login length must be 3 - 16 symbols',
             fields: ['login']
+        });
+    } else if (password.length < 5) {
+        res.json({
+            ok: false,
+            error: 'password must be longer then 5 symbols',
+            fields: ['password', 'passwordConfirm']
         });
     } else if (password !== passwordConfirm) {
         res.json({
