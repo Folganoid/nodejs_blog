@@ -6,6 +6,8 @@ $(function () {
 
         // reset fields
         $('input').val('');
+        $('p.error').remove();
+        $('input').removeClass('error');
 
         if (flag) {
             flag = false;
@@ -26,7 +28,8 @@ $(function () {
     // register
 
     $('.register-button').on('click', function (e) {
-        e.preventDefault();
+        e.preventDefault();        $('p.error').remove();
+        $('input').removeClass('error');
 
         var data = {
             login: $('#register-login').val(),
@@ -48,13 +51,16 @@ $(function () {
                     });
                 }
             } else {
-                $('.register h2').after('<p class="success">Success!</p>');
+                //$('.register h2').after('<p class="success">Success!</p>');
+                $(location).attr('href', '/');
             }
         });
     });
 
     $('.login-button').on('click', function (e) {
         e.preventDefault();
+        $('p.error').remove();
+        $('input').removeClass('error');
 
         var data = {
             login: $('#login-login').val(),
@@ -75,7 +81,8 @@ $(function () {
                     });
                 }
             } else {
-                $('.login h2').after('<p class="success">Success!</p>');
+                //$('.login h2').after('<p class="success">Success!</p>');
+                $(location).attr('href', '/');
             }
         });
     });
