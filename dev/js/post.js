@@ -8,9 +8,20 @@ $(function() {
         }
     });
 
+    function removeErrors() {
+        $('.post-form p.error').remove();
+        $('.post-form input, #post-body').removeClass('error');
+    }
+
+    //clear
+    $('.post-form input #post-body').on('focus', function() {
+        removeErrors();
+    });
+
     // publish
     $('.publish-button').on('click', function(e) {
         e.preventDefault();
+        removeErrors();
 
         var data = {
             title: $('#post-title').val(),
@@ -25,15 +36,15 @@ $(function() {
         }).done(function(data) {
             console.log(data);
             if (!data.ok) {
-                // $('.register h2').after('<p class="error">' + data.error + '</p>');
-                // if (data.fields) {
-                //   data.fields.forEach(function(item) {
-                //     $('input[name=' + item + ']').addClass('error');
-                //   });
-                // }
+                $('.post-form h2').after('<p class="error">' + data.error + '</p>');
+                if (data.fields) {
+                  data.fields.forEach(function(item) {
+                    $('#post-' + item).addClass('error');
+                  });
+                }
             } else {
-                // $('.register h2').after('<p class="success">Отлично!</p>');
-                // $(location).attr('href', '/');
+                $('.post-form h2').after('<p class="success">Success!</p>');
+                $(location).attr('href', '/');
             }
         });
     });
