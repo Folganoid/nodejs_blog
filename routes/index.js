@@ -5,5 +5,6 @@ const archive = require('./archive');
 module.exports = {
     auth,
     post,
-    archive
+    archive,
+
 };
