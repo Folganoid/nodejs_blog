@@ -22,7 +22,7 @@
                                 <%=posts[i].owner.login %>
                             </a>
                         </div>
-                        <a href="/">Comments</a>
+                        <a href="/posts/<%=posts[i].url %>#<%=posts[i].id %>">Comments: <%=posts[i].commentCount %></a>
                     </div>
                 </div>
             <% } %>

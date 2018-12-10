@@ -13,7 +13,7 @@
                 </spam>
             </div>
             <%= item.body %>
-            <span class="link" id="reply">response</span>
+            <span class="link reply">response</span>
             <%- include('./comments.ejs', {items: item.children}) %>
         </li>
     <% }) %>
