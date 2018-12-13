@@ -12,9 +12,18 @@ const schema = new Schema(
         body: {
             type: String
         },
+        url: {
+            type: String
+        },
         owner: {
             type: Schema.Types.ObjectId,
             ref: 'User'
+        },
+        status: {
+          type: String,
+          enum: ['published', 'draft'],
+          required: true,
+          default: 'published'
         },
         commentCount: {
             type: Number,
@@ -36,12 +45,18 @@ schema.statics = {
     }
 };
 
-schema.plugin(
-  URLSlugs('title', {
-    field: 'url',
-    generator: text => tr.slugify(text)
-  })
-);
+schema.pre('save', function(next) {
+    this.url = `${tr.slugify(this.title)}-${Date.now().toString(36)}`;
+    next();
+});
+
+// schema.plugin(
+//   URLSlugs('title', {
+//     field: 'url',
+//     generator: text => tr.slugify(text)
+//   })
+// );
+
 schema.set('toJSON', {
     virtuals: true
 });
