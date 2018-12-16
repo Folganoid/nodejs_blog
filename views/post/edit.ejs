@@ -4,20 +4,20 @@
     <div class="container">
         <div class="content add-post">
             <form method="post" class="post-form">
-                <% if (typeof post !== 'undefined') { %>
+                <% if (post.title) { %>
                     <h2>Edit post</h2>
                 <% } else { %>
-                    <h2>Add post</h2>
+                    <h2>Create post</h2>
                 <% } %>
                 <div class="form-group">
                     <label for="post-title">Title</label>
-                    <input type="text" id="post-title" name="title" value="<%= typeof post !== 'undefined' ? post.title : "" %>"/>
+                    <input type="text" id="post-title" name="title" value="<%= post.title %>"/>
                 </div>
                 <div class="form-group">
                     <label for="post-body">Text</label>
-                    <textarea id="post-body"><%= typeof post !== 'undefined' ? post.body : "" %></textarea>
+                    <textarea id="post-body"><%= post.body %></textarea>
                 </div>
-                <input type="hidden" id="post-id" name="postId" value="<%= typeof post !== 'undefined' ? post.id : "" %>"/>
+                <input type="hidden" id="post-id" name="postId" value="<%= post.id %>"/>
                 <div class="buttons">
                     <button class="save-button secondary-inverse">Save as draft</button>
                     <button class="publish-button">Publish</button>

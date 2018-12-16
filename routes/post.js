@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const tr = require('transliter');
 
 const models = require('../models');
 
@@ -37,19 +38,39 @@ router.get('/edit/:id', async (req, res, next) => {
 
 
 // GET for add
-router.get('/add', (req, res) => {
+router.get('/add', async (req, res) => {
     const userId = req.session.userId;
     const userLogin = req.session.userLogin;
 
     if(!userId || !userLogin) {
         res.redirect('/')
     } else {
-        res.render('post/edit', {
-            user: {
-                id: userId,
-                login: userLogin
+        try {
+            const post = await models.Post.findOne({
+               owner: userId,
+               status: 'draft'
+            });
+
+            if (post) {
+                res.redirect(`/post/edit/${post.id}`);
+            } else {
+                const post = await models.Post.create({
+                    owner: userId,
+                    status: 'draft'
+                });
+                res.redirect(`/post/edit/${post.id}`);
             }
-        });
+
+        } catch (error) {
+            console.log(error);
+
+        }
+        // res.render('post/edit', {
+        //     user: {
+        //         id: userId,
+        //         login: userLogin
+        //     }
+        // });
     }
 });
 
@@ -66,6 +87,7 @@ router.post('/add', async (req, res) => {
         const body = req.body.body.trim();
         const isDraft = req.body.isDraft;
         const postId = req.body.postId;
+        const url = `${tr.slugify(title)}-${Date.now().toString(36)}`;
 
         if (!title || !body) {
             const fields = [];
@@ -89,20 +111,26 @@ router.post('/add', async (req, res) => {
                 error: 'Title length must be 3 - 10000 symbols',
                 fields: ['body']
             });
+        } else if(!postId) {
+            res.json({
+                ok: false
+            });
         } else {
             try {
-                if(postId) {
                     const post = await models.Post.findOneAndUpdate({
                         _id: postId,
                         owner: userId,
                     }, {
                         title,
                         body,
+                        url,
                         owner: userId,
                         status: isDraft ? "draft" : "published",
                     },{
                         new: true
                     });
+
+                    //console.log(post);
 
                     if(!post) {
                         res.json({
@@ -115,19 +143,6 @@ router.post('/add', async (req, res) => {
                             post
                         });
                     }
-                } else {
-
-                    const post = await models.Post.create({
-                        title,
-                        body,
-                        owner: userId
-                    });
-                    res.json({
-                        ok: true,
-                        post
-                    });
-                }
-
             } catch (error) {
                 console.log(error);
                 res.json({
