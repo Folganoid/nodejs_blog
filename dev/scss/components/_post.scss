@@ -10,30 +10,11 @@
   .top {
     h2 {
       margin-top: 0;
-
-      .edit {
-        text-decoration: none;
-
-        &.admin {
-          color: red;
-        }
-        &.user {
-          color: darkorange;
-        }
-      }
     }
   }
   .body {
     p {
       text-align: justify;
-    }
-
-    img {
-      max-width: 100%;
-    }
-
-    pre {
-      margin-bottom: 1.3em;
     }
   }
 
@@ -41,15 +22,6 @@
     font-size: 0.9em;
     display: flex;
     justify-content: space-between;
-
-    .moderated {
-      background-color: lighten($secondaryColor, 40%);
-      border: 1px solid $secondaryColor;
-      font-size: 0.8em;
-      padding: 2px 10px;
-      color: $secondaryColor;
-      border-radius: $borderRadius;
-    }
   }
 }
 

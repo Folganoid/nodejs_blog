@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const URLSlugs = require('mongoose-url-slugs');
-const tr = require('transliter');
 
 const schema = new Schema(
     {
@@ -27,7 +26,13 @@ const schema = new Schema(
         commentCount: {
             type: Number,
             default: 0
-        }
+        },
+        uploads: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Upload'
+            }
+        ]
     },
     {
         timestamps: true

@@ -25,8 +25,11 @@
             </form>
 
             <form method="post" enctype="multipart/form-data" name="fileinfo" id="fileinfo">
-                <input type="file" name="file" id="file" required/>
-                <button class="upload">Upload</button>
+                <input type="hidden" id="post-id" name="postId" value="<%= post.id %>"/>
+                <label for="file" class="custom-file-upload">
+                    <input type="file" name="file" id="file" required/> +
+                </label>
+                <!--<button class="upload">Upload</button>-->
             </form>
 
         </div>
