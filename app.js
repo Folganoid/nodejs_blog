@@ -42,10 +42,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(staticAsset(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-    '/javascripts',
-    express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
-);
+app.use('/uploads', express.static(path.join(__dirname, config.DESTINATION)));
+app.use('/javascripts', express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist')));
 
 // routes
 app.use('/', routes.archive);

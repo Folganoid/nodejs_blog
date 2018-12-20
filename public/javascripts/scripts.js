@@ -164,8 +164,8 @@ $(function() {
             data: formData,
             processData: false,
             contentType: false,
-            success: function(r) {
-                console.log(r);
+            success: function(data) {
+                $('#fileinfo').prepend('<div class="img-container"><img src="/uploads'+ data.filePath +'"/></div>');
             },
             error: function(e) {
                 console.log(e);

@@ -18,20 +18,25 @@
                     <textarea id="post-body"><%= post.body %></textarea>
                 </div>
                 <input type="hidden" id="post-id" name="postId" value="<%= post.id %>"/>
+
+                <div id="fileinfo">
+
+                    <% post.uploads.forEach(function(upload) { %>
+
+                        <div class="img-container"><img src="/uploads<%= upload.path %>"/></div>
+
+                    <% }) %>
+
+                    <label for="file" class="custom-file-upload">
+                        <input type="file" name="file" id="file" required/> +
+                    </label>
+                </div>
+
                 <div class="buttons">
                     <button class="save-button secondary-inverse">Save as draft</button>
                     <button class="publish-button">Publish</button>
                 </div>
             </form>
-
-            <form method="post" enctype="multipart/form-data" name="fileinfo" id="fileinfo">
-                <input type="hidden" id="post-id" name="postId" value="<%= post.id %>"/>
-                <label for="file" class="custom-file-upload">
-                    <input type="file" name="file" id="file" required/> +
-                </label>
-                <!--<button class="upload">Upload</button>-->
-            </form>
-
         </div>
 
         <% include ../layout/sidebar.ejs %>
