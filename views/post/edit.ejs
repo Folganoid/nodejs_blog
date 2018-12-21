@@ -23,7 +23,9 @@
 
                     <% post.uploads.forEach(function(upload) { %>
 
-                        <div class="img-container"><img src="/uploads<%= upload.path %>"/></div>
+                        <div class="img-container" id="<%= upload.id %>">
+                            <img src="/uploads<%= upload.path %>"/>
+                        </div>
 
                     <% }) %>
 
